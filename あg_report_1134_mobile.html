@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>1134 東京會舘ユニット | G表</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg:     #0c0e13;
+  --bg2:    #14181f;
+  --bg3:    #1c222c;
+  --border: #2a3344;
+  --text:   #dce4f0;
+  --text2:  #7a8ea8;
+  --text3:  #4a5a6e;
+  --gold:   #c9961f;
+  --gold2:  #e8b942;
+  --green:  #2fa87e;
+  --red:    #c94a4a;
+  --blue:   #3d8bcd;
+  --teal:   #1fa8a0;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+html { font-size: 14px; }
+body {
+  background:var(--bg); color:var(--text);
+  font-family:'Noto Sans JP',sans-serif;
+  line-height:1.6; min-height:100vh;
+  padding-bottom:32px;
+}
+
+/* ── HEADER ── */
+.header {
+  background:linear-gradient(135deg,#090c10,#0d1520);
+  border-bottom:1px solid var(--border);
+  padding:20px 16px 16px;
+  position:sticky; top:0; z-index:100;
+}
+.header-eye {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:.2em;
+  color:var(--gold); text-transform:uppercase;
+  margin-bottom:4px;
+}
+.header-title {
+  font-size:17px; font-weight:700;
+  display:flex; align-items:center; gap:8px;
+}
+.hbadge {
+  font-size:9px; font-family:'DM Mono',monospace;
+  background:rgba(201,150,31,.15);
+  border:1px solid rgba(201,150,31,.4);
+  color:var(--gold2); padding:2px 7px;
+  border-radius:3px; letter-spacing:.08em;
+}
+.header-meta {
+  font-size:10px; color:var(--text3);
+  font-family:'DM Mono',monospace; margin-top:4px;
+}
+
+/* ── SECTION NAV (tab-like) ── */
+.nav {
+  display:flex; overflow-x:auto; gap:0;
+  border-bottom:1px solid var(--border);
+  background:var(--bg2);
+  scrollbar-width:none;
+}
+.nav::-webkit-scrollbar { display:none; }
+.nav-btn {
+  flex-shrink:0; padding:10px 16px;
+  font-size:11px; font-weight:500;
+  color:var(--text3); border:none;
+  background:none; cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:all .2s; white-space:nowrap;
+}
+.nav-btn.active { color:var(--gold2); border-bottom-color:var(--gold); }
+
+/* ── SECTIONS ── */
+.section { display:none; padding:16px; }
+.section.active { display:block; }
+
+/* ── LABEL ── */
+.sec-label {
+  font-size:9px; font-weight:700; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--text3);
+  margin-bottom:12px; margin-top:20px;
+  padding-bottom:8px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:8px;
+}
+.sec-label::before {
+  content:''; width:3px; height:3px;
+  background:var(--gold); border-radius:50%;
+}
+.sec-label:first-child { margin-top:0; }
+
+/* ── SUMMARY CARDS (2-col grid) ── */
+.kpi-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:10px; margin-bottom:20px;
+}
+.kpi {
+  background:var(--bg2); border:1px solid var(--border);
+  border-radius:10px; padding:14px;
+  position:relative; overflow:hidden;
+}
+.kpi::before {
+  content:''; position:absolute;
+  top:0; left:0; right:0; height:2px;
+}
+.kpi.gold::before  { background:linear-gradient(90deg,var(--gold),var(--gold2)); }
+.kpi.green::before { background:var(--green); }
+.kpi.blue::before  { background:var(--blue); }
+.kpi.teal::before  { background:var(--teal); }
+.kpi.wide { grid-column:1/-1; }
+.kpi-label { font-size:10px; color:var(--text2); margin-bottom:4px; }
+.kpi-val {
+  font-size:22px; font-weight:700;
+  font-family:'DM Mono',monospace; letter-spacing:-.02em;
+}
+.kpi-unit { font-size:10px; color:var(--text2); font-weight:400; }
+.kpi-sub { font-size:10px; color:var(--text3); font-family:'DM Mono',monospace; margin-top:3px; }
+.kpi-sub.g { color:var(--green); }
+
+/* ── FLOW (waterfall-like horizontal) ── */
+.flow {
+  background:var(--bg2); border:1px solid var(--border);
+  border-radius:10px; padding:16px;
+  margin-bottom:20px;
+}
+.flow-row {
+  display:flex; align-items:center;
+  padding:7px 0; border-bottom:1px solid rgba(42,51,68,.4);
+  gap:10px;
+}
+.flow-row:last-child { border-bottom:none; }
+.flow-name {
+  font-size:12px; flex:1; color:var(--text2);
+  min-width:0;
+}
+.flow-name.bold { color:var(--text); font-weight:700; }
+.flow-name.indent { color:var(--text3); font-size:11px; padding-left:10px; }
+.flow-name.gold  { color:var(--gold2); font-weight:700; }
+.flow-name.green { color:var(--green); font-weight:700; }
+.flow-val {
+  font-family:'DM Mono',monospace; font-size:12px;
+  text-align:right; white-space:nowrap;
+}
+.flow-pct {
+  font-family:'DM Mono',monospace; font-size:11px;
+  color:var(--text3); width:44px; text-align:right;
+  white-space:nowrap; flex-shrink:0;
+}
+.flow-bar-bg {
+  width:60px; height:5px; background:var(--bg3);
+  border-radius:3px; overflow:hidden; flex-shrink:0;
+}
+.flow-bar-fill { height:100%; border-radius:3px; }
+.flow-divider {
+  height:1px; background:var(--border);
+  margin:4px 0;
+}
+.minus { color:var(--red); }
+.gold-v { color:var(--gold2); }
+.green-v { color:var(--green); }
+
+/* ── MONTH CARDS (swipeable) ── */
+.month-scroll {
+  display:flex; gap:10px;
+  overflow-x:auto; padding-bottom:8px;
+  margin-bottom:20px;
+  scrollbar-width:none;
+  scroll-snap-type:x mandatory;
+}
+.month-scroll::-webkit-scrollbar { display:none; }
+.month-card {
+  flex-shrink:0; width:calc(100vw - 48px);
+  background:var(--bg2); border:1px solid var(--border);
+  border-radius:10px; padding:16px;
+  scroll-snap-align:start;
+}
+.mc-header {
+  display:flex; justify-content:space-between; align-items:flex-start;
+  margin-bottom:14px;
+  padding-bottom:10px; border-bottom:1px solid var(--border);
+}
+.mc-month { font-size:18px; font-weight:700; color:var(--gold2); }
+.mc-pq {
+  font-family:'DM Mono',monospace;
+  font-size:13px; color:var(--text2); text-align:right;
+}
+.mc-pq span { display:block; font-size:18px; color:var(--text); font-weight:700; }
+.mc-rows { display:flex; flex-direction:column; gap:0; }
+.mc-row {
+  display:flex; justify-content:space-between;
+  align-items:center; padding:7px 0;
+  border-bottom:1px solid rgba(42,51,68,.4);
+}
+.mc-row:last-child { border-bottom:none; }
+.mc-label { font-size:11px; color:var(--text2); }
+.mc-label.sm { font-size:10px; color:var(--text3); padding-left:8px; }
+.mc-label.bold { color:var(--text); font-weight:700; font-size:12px; }
+.mc-label.gold  { color:var(--gold2); font-weight:700; font-size:12px; }
+.mc-label.green { color:var(--green); font-weight:700; font-size:12px; }
+.mc-right { text-align:right; }
+.mc-num {
+  font-family:'DM Mono',monospace; font-size:12px;
+  display:block;
+}
+.mc-pct-text {
+  font-family:'DM Mono',monospace; font-size:10px;
+  color:var(--text3); display:block;
+}
+/* bar under number */
+.mini-bar { width:60px; height:3px; background:var(--bg3); border-radius:2px; margin-top:3px; overflow:hidden; display:inline-block; vertical-align:middle; }
+.mini-bar-fill { height:100%; border-radius:2px; }
+
+/* ── CHART ── */
+.chart-wrap {
+  background:var(--bg2); border:1px solid var(--border);
+  border-radius:10px; padding:16px;
+  margin-bottom:20px;
+}
+.chart-legend {
+  display:flex; gap:12px; flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.legend-item { display:flex; align-items:center; gap:5px; font-size:10px; color:var(--text2); }
+.legend-dot { width:8px; height:8px; border-radius:2px; }
+.bars { display:flex; align-items:flex-end; gap:6px; height:140px; }
+.bar-col { flex:1; display:flex; flex-direction:column; align-items:center; height:100%; justify-content:flex-end; }
+.bar-val { font-size:8px; font-family:'DM Mono',monospace; color:var(--text3); margin-bottom:2px; }
+.bar-month { font-size:9px; color:var(--text3); font-family:'DM Mono',monospace; margin-top:5px; }
+
+/* ── VPQ BREAKDOWN ── */
+.vpq-list { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+.vpq-item {
+  background:var(--bg2); border:1px solid var(--border);
+  border-radius:10px; padding:14px;
+}
+.vpq-header { display:flex; justify-content:space-between; margin-bottom:8px; }
+.vpq-name { font-size:11px; color:var(--text2); }
+.vpq-num { font-family:'DM Mono',monospace; font-size:14px; font-weight:600; }
+.vpq-sub { display:flex; justify-content:space-between; font-size:10px; color:var(--text3); font-family:'DM Mono',monospace; margin-bottom:6px; }
+.vpq-bar-bg { background:var(--bg3); border-radius:3px; height:5px; overflow:hidden; }
+.vpq-bar-fill { height:100%; border-radius:3px; }
+
+/* ── SCROLL HINT ── */
+.scroll-hint {
+  text-align:center; font-size:10px; color:var(--text3);
+  font-family:'DM Mono',monospace;
+  margin-bottom:4px; letter-spacing:.08em;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eye">東京會舘ユニット E_1134 ／ 76期下期</div>
+  <div class="header-title">G表ダッシュボード <span class="hbadge">修正計画</span></div>
+  <div class="header-meta">4月〜9月（下期）／ 単位：千円</div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav">
+  <button class="nav-btn active" onclick="showTab('summary')">サマリー</button>
+  <button class="nav-btn" onclick="showTab('monthly')">月別</button>
+  <button class="nav-btn" onclick="showTab('chart')">グラフ</button>
+  <button class="nav-btn" onclick="showTab('vpq')">VPQ内訳</button>
+</div>
+
+<!-- ① SUMMARY TAB -->
+<div id="tab-summary" class="section active">
+
+  <div class="sec-label">下期 主要KPI</div>
+  <div class="kpi-grid">
+    <div class="kpi gold wide">
+      <div class="kpi-label">PQ（売上）下期計</div>
+      <div class="kpi-val">291,052<span class="kpi-unit"> 千円</span></div>
+      <div class="kpi-sub">≈ 2.91億円</div>
+    </div>
+    <div class="kpi gold">
+      <div class="kpi-label">MPQ③（粗利）</div>
+      <div class="kpi-val">169,764<span class="kpi-unit"> 千円</span></div>
+      <div class="kpi-sub g">粗利率 58.3%</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">G0</div>
+      <div class="kpi-val">106,754<span class="kpi-unit"> 千円</span></div>
+      <div class="kpi-sub g">対PQ 36.7%</div>
+    </div>
+    <div class="kpi blue">
+      <div class="kpi-label">人件費（F1）</div>
+      <div class="kpi-val">63,011<span class="kpi-unit"> 千円</span></div>
+      <div class="kpi-sub">人件費率 21.7%</div>
+    </div>
+    <div class="kpi teal">
+      <div class="kpi-label">VPQ合計（仕入原価）</div>
+      <div class="kpi-val">121,287<span class="kpi-unit"> 千円</span></div>
+      <div class="kpi-sub">対PQ 41.7%</div>
+    </div>
+  </div>
+
+  <div class="sec-label">利益構造フロー（下期計）</div>
+  <div class="flow" id="flowChart"></div>
+
+</div>
+
+<!-- ② MONTHLY TAB -->
+<div id="tab-monthly" class="section">
+  <div class="sec-label">月別カード（横スクロール）</div>
+  <div class="scroll-hint">← スワイプ →</div>
+  <div class="month-scroll" id="monthScroll"></div>
+</div>
+
+<!-- ③ CHART TAB -->
+<div id="tab-chart" class="section">
+  <div class="sec-label">月次推移</div>
+  <div class="chart-wrap">
+    <div class="chart-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(61,139,205,.5)"></div>PQ</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>MPQ③</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>G0</div>
+    </div>
+    <div class="bars" id="barChart"></div>
+  </div>
+
+  <div class="sec-label">人件費率 推移</div>
+  <div class="chart-wrap">
+    <div class="bars" id="laborChart"></div>
+  </div>
+</div>
+
+<!-- ④ VPQ TAB -->
+<div id="tab-vpq" class="section">
+  <div class="sec-label">VPQ構造（下期計）</div>
+  <div class="vpq-list" id="vpqList"></div>
+</div>
+
+<script>
+// ── DATA ──
+const months = ['4月','5月','6月','7月','8月','9月'];
+const data = {
+  '4月': {PQ:52073, VPQ1:15358, VPQ2:743,  VPQ3:4670,  MPQ3:31302, 人件費:11014, G0:20289},
+  '5月': {PQ:72468, VPQ1:22746, VPQ2:916,  VPQ3:9182,  MPQ3:39625, 人件費:10965, G0:28659},
+  '6月': {PQ:44674, VPQ1:13463, VPQ2:1174, VPQ3:3092,  MPQ3:26945, 人件費:10488, G0:16457},
+  '7月': {PQ:39296, VPQ1:11730, VPQ2:622,  VPQ3:3262,  MPQ3:23682, 人件費: 9845, G0:13837},
+  '8月': {PQ:34755, VPQ1:10348, VPQ2:612,  VPQ3:2587,  MPQ3:21208, 人件費: 9849, G0:11359},
+  '9月': {PQ:47786, VPQ1:14408, VPQ2:723,  VPQ3:5652,  MPQ3:27003, 人件費:10850, G0:16153},
+};
+const total = {PQ:0,VPQ1:0,VPQ2:0,VPQ3:0,MPQ3:0,人件費:0,G0:0};
+months.forEach(m => Object.keys(total).forEach(k => total[k] += data[m][k]));
+
+function fmt(v) { return Math.abs(v).toLocaleString('ja-JP'); }
+function pct(a,b) { return b ? (a/b*100).toFixed(1)+'%' : '—'; }
+function getVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+// ── TAB SWITCH ──
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── FLOW CHART ──
+const flowRows = [
+  { name:'PQ（売上）',        val:total.PQ,    type:'pos', bold:true, pctBase:null },
+  { name:'▲ VPQ1 商品原価',   val:total.VPQ1,  type:'neg', indent:true, pctBase:total.PQ },
+  { name:'▲ VPQ2 物流経費',   val:total.VPQ2,  type:'neg', indent:true, pctBase:total.PQ },
+  { name:'▲ VPQ3 外注費',     val:total.VPQ3,  type:'neg', indent:true, pctBase:total.PQ },
+  { name:'MPQ③（粗利）',      val:total.MPQ3,  type:'gold', bold:true, pctBase:total.PQ },
+  { name:'▲ 人件費（F1）',    val:total.人件費, type:'neg', indent:true, pctBase:total.PQ },
+  { name:'人件費率',           val:null,         type:'pct-only', pct: pct(total.人件費,total.PQ) },
+  { name:'G0（MPQ③ − F1）',  val:total.G0,    type:'green', bold:true, pctBase:total.PQ },
+];
+const maxFlow = total.PQ;
+const flowEl = document.getElementById('flowChart');
+flowRows.forEach(r => {
+  if (r.type==='pct-only') {
+    flowEl.innerHTML += `<div class="flow-row"><div class="flow-name indent">　人件費率</div><div class="flow-val" style="color:var(--text3);font-family:'DM Mono',monospace;font-size:11px">${r.pct}</div><div class="flow-pct"></div></div>`;
+    return;
+  }
+  const isNeg = r.type==='neg';
+  const barW  = r.pctBase ? Math.min(100, r.val/r.pctBase*100) : 100;
+  const barColor = r.type==='gold'?'var(--gold)':r.type==='green'?'var(--green)':isNeg?'var(--red)':'var(--blue)';
+  const valColor = r.type==='gold'?'var(--gold2)':r.type==='green'?'var(--green)':isNeg?'var(--red)':'var(--text)';
+  const nameClass = `flow-name ${r.bold?r.type==='gold'?'gold':r.type==='green'?'green':'bold':''}${r.indent?' indent':''}`;
+  const pctStr = r.pctBase ? pct(r.val, r.pctBase) : '';
+  flowEl.innerHTML += `
+    <div class="flow-row">
+      <div class="${nameClass}">${r.name}</div>
+      <div class="flow-val" style="color:${valColor}">${isNeg?'▲ ':''}<b>${fmt(r.val)}</b></div>
+      <div class="flow-pct">${pctStr}</div>
+    </div>`;
+});
+
+// ── MONTH CARDS ──
+const scroll = document.getElementById('monthScroll');
+const maxPQ = Math.max(...months.map(m => data[m].PQ));
+months.forEach(m => {
+  const d = data[m];
+  const laborRate = pct(d.人件費, d.PQ);
+  const g0Rate    = pct(d.G0,    d.PQ);
+  const mpq3Rate  = pct(d.MPQ3,  d.PQ);
+  const card = document.createElement('div');
+  card.className = 'month-card';
+  card.innerHTML = `
+    <div class="mc-header">
+      <div class="mc-month">${m}</div>
+      <div class="mc-pq">売上<span>${fmt(d.PQ)}<small style="font-size:11px;color:var(--text2)"> 千円</small></span></div>
+    </div>
+    <div class="mc-rows">
+      <div class="mc-row">
+        <div class="mc-label indent">VPQ1 商品原価</div>
+        <div class="mc-right">
+          <span class="mc-num minus">▲ ${fmt(d.VPQ1)}</span>
+          <span class="mc-pct-text">${pct(d.VPQ1,d.PQ)}</span>
+        </div>
+      </div>
+      <div class="mc-row">
+        <div class="mc-label indent">VPQ2 物流経費</div>
+        <div class="mc-right">
+          <span class="mc-num minus">▲ ${fmt(d.VPQ2)}</span>
+          <span class="mc-pct-text">${pct(d.VPQ2,d.PQ)}</span>
+        </div>
+      </div>
+      <div class="mc-row">
+        <div class="mc-label indent">VPQ3 外注費</div>
+        <div class="mc-right">
+          <span class="mc-num minus">▲ ${fmt(d.VPQ3)}</span>
+          <span class="mc-pct-text">${pct(d.VPQ3,d.PQ)}</span>
+        </div>
+      </div>
+      <div class="mc-row">
+        <div class="mc-label gold">MPQ③（粗利）</div>
+        <div class="mc-right">
+          <span class="mc-num" style="color:var(--gold2)">${fmt(d.MPQ3)}</span>
+          <span class="mc-pct-text" style="color:var(--gold)">${mpq3Rate}</span>
+        </div>
+      </div>
+      <div class="mc-row">
+        <div class="mc-label indent">人件費（F1）</div>
+        <div class="mc-right">
+          <span class="mc-num minus">▲ ${fmt(d.人件費)}</span>
+          <span class="mc-pct-text" style="color:${parseFloat(laborRate)>25?'var(--red)':'var(--text3)'}">${laborRate}</span>
+        </div>
+      </div>
+      <div class="mc-row" style="background:rgba(47,168,126,.05);border-radius:6px;margin:2px -4px;padding:7px 4px">
+        <div class="mc-label green">G0</div>
+        <div class="mc-right">
+          <span class="mc-num" style="color:var(--green)">${fmt(d.G0)}</span>
+          <span class="mc-pct-text" style="color:var(--green)">${g0Rate}</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:6px;align-items:center">
+      <div style="flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${pct(d.PQ,maxPQ)};background:rgba(61,139,205,.3);border-radius:3px;position:relative">
+          <div style="position:absolute;top:0;left:0;bottom:0;width:${pct(d.MPQ3,d.PQ)};background:var(--gold);opacity:.7"></div>
+          <div style="position:absolute;top:0;left:0;bottom:0;width:${pct(d.G0,d.PQ)};background:var(--green)"></div>
+        </div>
+      </div>
+      <span style="font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;white-space:nowrap">G0 ${g0Rate}</span>
+    </div>
+  `;
+  scroll.appendChild(card);
+});
+
+// ── BAR CHART ──
+const barEl = document.getElementById('barChart');
+months.forEach(m => {
+  const d = data[m];
+  const pqH  = (d.PQ   / maxPQ * 100).toFixed(1);
+  const m3H  = (d.MPQ3 / maxPQ * 100).toFixed(1);
+  const g0H  = (d.G0   / maxPQ * 100).toFixed(1);
+  const col  = document.createElement('div');
+  col.className = 'bar-col';
+  col.innerHTML = `
+    <div class="bar-val">${(d.PQ/1000).toFixed(0)}M</div>
+    <div style="width:100%;height:${pqH}%;position:relative">
+      <div style="position:absolute;inset:0;background:rgba(61,139,205,.2);border-radius:3px 3px 0 0"></div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:${m3H}%;background:rgba(201,150,31,.55);border-radius:3px 3px 0 0"></div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:${g0H}%;background:var(--green);border-radius:3px 3px 0 0"></div>
+    </div>
+    <div class="bar-month">${m}</div>
+  `;
+  barEl.appendChild(col);
+});
+
+// ── LABOR RATE CHART ──
+const laborEl = document.getElementById('laborChart');
+const maxLaborRate = Math.max(...months.map(m => data[m].人件費 / data[m].PQ * 100));
+months.forEach(m => {
+  const d = data[m];
+  const rate = d.人件費 / d.PQ * 100;
+  const barH = (rate / maxLaborRate * 100).toFixed(1);
+  const isHigh = rate > 25;
+  const col = document.createElement('div');
+  col.className = 'bar-col';
+  col.innerHTML = `
+    <div class="bar-val" style="color:${isHigh?'var(--red)':'var(--text3)'}">${rate.toFixed(1)}%</div>
+    <div style="width:100%;height:${barH}%;background:${isHigh?'var(--red)':'rgba(61,139,205,.5)'};border-radius:3px 3px 0 0;min-height:3px"></div>
+    <div class="bar-month">${m}</div>
+  `;
+  laborEl.appendChild(col);
+});
+
+// ── VPQ LIST ──
+const vpqData = [
+  { name:'VPQ1 — 商品原価', desc:'第1仕入 ＋ 第2仕入', val:total.VPQ1, color:'var(--gold)', detail:'主要な仕入コスト' },
+  { name:'VPQ2 — 物流経費', desc:'運搬・発送・包装 等', val:total.VPQ2, color:'var(--blue)', detail:'配送・包装コスト' },
+  { name:'VPQ3 — 外注費',   desc:'制作委託・人材派遣・施工 等', val:total.VPQ3, color:'var(--teal)', detail:'委託・外注コスト' },
+];
+const vpqEl = document.getElementById('vpqList');
+const totalVPQ = total.VPQ1+total.VPQ2+total.VPQ3;
+vpqData.forEach(v => {
+  vpqEl.innerHTML += `
+    <div class="vpq-item">
+      <div class="vpq-header">
+        <div class="vpq-name">${v.name}<br><span style="color:var(--text3);font-size:10px">${v.desc}</span></div>
+        <div class="vpq-num" style="color:${v.color}">${fmt(v.val)}<span style="font-size:10px;color:var(--text2)"> 千円</span></div>
+      </div>
+      <div class="vpq-sub">
+        <span>対PQ ${pct(v.val,total.PQ)}</span>
+        <span>VPQ内 ${pct(v.val,totalVPQ)}</span>
+      </div>
+      <div class="vpq-bar-bg">
+        <div class="vpq-bar-fill" style="background:${v.color};width:${pct(v.val,total.PQ)}"></div>
+      </div>
+    </div>
+  `;
+});
+// VPQ合計
+vpqEl.innerHTML += `
+  <div class="vpq-item" style="border-color:rgba(201,150,31,.3)">
+    <div class="vpq-header">
+      <div class="vpq-name" style="font-weight:700;color:var(--text)">VPQ合計</div>
+      <div class="vpq-num" style="color:var(--gold2)">${fmt(totalVPQ)}<span style="font-size:10px;color:var(--text2)"> 千円</span></div>
+    </div>
+    <div class="vpq-sub"><span>対PQ ${pct(totalVPQ,total.PQ)}</span><span>→ MPQ③ ${pct(total.MPQ3,total.PQ)}</span></div>
+    <div class="vpq-bar-bg">
+      <div class="vpq-bar-fill" style="background:var(--gold2);width:${pct(totalVPQ,total.PQ)}"></div>
+    </div>
+  </div>
+`;
+</script>
+</body>
+</html>
